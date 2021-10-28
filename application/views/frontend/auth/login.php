@@ -18,8 +18,8 @@
                                 </div>
                                 <form class="user" method="post">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Username" id="name" name="name" value="<?= set_value('name'); ?>">
-                                        <?= form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
+                                        <input type="text" class="form-control" placeholder="Username" id="username" name="username" value="<?= set_value('username'); ?>">
+                                        <?= form_error('username', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control" placeholder="Password" id="password" name="password" value="<?= set_value('password'); ?>">
@@ -34,7 +34,7 @@
                                     <a class="small" href="forgot-password.html">Forgot Password?</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="small" href="<?= base_url('frontend/auth/registration'); ?>">Create an Account!</a>
+                                    <a class="small" href="<?= base_url('frontend/auth/register'); ?>">Create an Account!</a>
                                 </div>
                             </div>
                         </div>
@@ -45,6 +45,5 @@
         </div>
 
     </div>
-    </body>
 
 <?php $this->load->view('backend/template/js') ?>

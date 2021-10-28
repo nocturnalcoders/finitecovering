@@ -56,4 +56,5 @@ $route['translate_uri_dashes'] = FALSE;
 
 
 $route['register'] = 'frontend/auth/register';
-$route['login'] = 'frontend/auth';
+$route['login_frontend'] = 'frontend/auth';
+$route['login_backend'] = 'admin/auth';

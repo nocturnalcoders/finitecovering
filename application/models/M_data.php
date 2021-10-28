@@ -43,7 +43,7 @@ class M_data extends CI_Model
 
     public function matrix_satu_sum()
     {   
-        $query = $this->db->query('SELECT *, tb_user.name as username, SUM(zat_karbohidrat) AS total_zat_karbohidrat,
+        $query = $this->db->query('SELECT *, tb_user.username as username, SUM(zat_karbohidrat) AS total_zat_karbohidrat,
         SUM(zat_protein) AS total_zat_protein ,
         SUM(zat_lemak) AS total_zat_lemak ,
         SUM(vitamin_a) AS total_vitamin_a ,

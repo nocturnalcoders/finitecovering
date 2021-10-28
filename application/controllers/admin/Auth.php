@@ -11,7 +11,7 @@ class Auth extends CI_Controller
 
     public function index()
     {
-        $this->form_validation->set_rules('name', 'Name', 'trim|required');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         if ($this->form_validation->run() == FALSE) {
 
@@ -24,16 +24,16 @@ class Auth extends CI_Controller
 
     private function _login()
     {
-        $name = $this->input->post('name');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('tb_user', ['name' => $name])->row_array();
+        $user = $this->db->get_where('tb_user', ['username' => $username])->row_array();
 
         if ($user) {
-            if ($user['is_active'] == 1) {
+            if ($user['role_id'] == 1) {
                 if (password_verify($password, $user['password'])) {
                     $data = [
-                        'name' => $user['name'],
+                        'username' => $user['username'],
                         'role_id' => $user['role_id']
                     ];
                     $this->session->set_userdata($data);
@@ -41,7 +41,7 @@ class Auth extends CI_Controller
                 } else {
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Wrong Password </div>');
                     redirect('admin/auth');
-                }
+                }   
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> This Username Not Active </div>');
                 redirect('admin/auth');
@@ -52,15 +52,9 @@ class Auth extends CI_Controller
         }
     }
 
-    public function registration()
-    {
-        $data['page_title'] = 'Registration';
-        $this->load->view('backend/auth/registration', $data);
-    }
-
     public function logout()
     {
-        $this->session->unset_userdata('name');
+        $this->session->unset_userdata('username');
         $this->session->unset_userdata('role_id');
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> You Have Been Logout </div>');
         redirect('auth');

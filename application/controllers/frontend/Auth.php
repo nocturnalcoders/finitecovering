@@ -11,7 +11,7 @@ class Auth extends CI_Controller
 
     public function index()
     {
-        $this->form_validation->set_rules('name', 'Name', 'trim|required');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         if ($this->form_validation->run() == FALSE) {
 
@@ -24,16 +24,16 @@ class Auth extends CI_Controller
 
     private function _login()
     {
-        $name = $this->input->post('name');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('tb_user', ['name' => $name])->row_array();
+        $user = $this->db->get_where('tb_user', ['username' => $username])->row_array();
 
         if ($user) {
-            if ($user['is_active'] == 1) {
+            if ($user['role_id'] == 2) {
                 if (password_verify($password, $user['password'])) {
                     $data = [
-                        'name' => $user['name'],
+                        'username' => $user['username'],
                         'role_id' => $user['role_id']
                     ];
                     $this->session->set_userdata($data);
@@ -53,15 +53,14 @@ class Auth extends CI_Controller
     }
 
     public function register(){
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('username', 'Username', 'required|trim');
+        $this->form_validation->set_rules('nama_user', 'Nama_user', 'required|trim');
         
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[pengguna.email_pengguna]', [
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[tb_user.email]', [
             'is_unique' => 'email telah terdaftar'
         ]);
 
-
-        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]|matches[password2]', [
-            'matches' => 'Password tidak sama!',
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]', [
             'min_length' => 'Password minimal 8 karakter!'
         ]);
 
@@ -75,20 +74,18 @@ class Auth extends CI_Controller
             $email = htmlspecialchars($this->input->post('email', true));
 
             $data = [
-                'name' => htmlspecialchars($this->input->post('nama', true)),
+                'nama_user' => htmlspecialchars($this->input->post('nama_user', true)),
                 'email' => $email,
+                'username' => htmlspecialchars($this->input->post('username', true)),
                 'password' => password_hash($this->input->post('password', true), PASSWORD_DEFAULT),
-                'role_id' => '2',
-                'is_active' => '1',
-                'image' => 'default.jpg',
-                'date_created' => time()
+                'role_id' => 2
             ];
             
             $this->db->insert('tb_user', $data);
 
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Akun berhasil dibuat. Silahkan <strong>verifikasi</strong> email anda</div>');
-            redirect(base_url('login'));
+            redirect('frontend/auth');
         }
     }
 
@@ -96,7 +93,7 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('name');
+        $this->session->unset_userdata('username');
         $this->session->unset_userdata('role_id');
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> You Have Been Logout </div>');
         redirect('auth');
