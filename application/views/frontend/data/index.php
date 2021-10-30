@@ -93,8 +93,8 @@
                         <div class="form-group">
                             <label for="zat_karbohidrat">Zat Karbohidrat</label>
                             <select name="zat_karbohidrat" class="form-control" id="zat_karbohidrat" required>
-                                <option value="1">Ada</option>
                                 <option value="0">Tidak Ada</option>
+                                <option value="1">Ada</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -121,8 +121,8 @@
                         <div class="form-group">
                             <label for="vitamin_d">Vitamin D</label>
                             <select name="vitamin_d" class="form-control" id="vitamin_d" required>
-                                <option value="1">Ada</option>
                                 <option value="0">Tidak Ada</option>
+                                <option value="1">Ada</option>
                             </select>
                         </div>
                         <div class="form-group">
